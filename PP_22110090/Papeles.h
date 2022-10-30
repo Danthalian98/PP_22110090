@@ -5,7 +5,7 @@
 #include <time.h>
 using namespace std;
 
-class Pasaporte{
+class Pasaporte {
 public:
 	Pasaporte();
 	void Get();
@@ -17,7 +17,7 @@ public:
 	string case3(string temp, int ronda);
 	string case4(string temp, int ronda);
 };
-Pasaporte::Pasaporte(){	
+Pasaporte::Pasaporte() {
 	z = 0; k = 0; q = 0; i = 0; j = 0;
 }
 
@@ -45,7 +45,7 @@ string Pasaporte::case1(string temp, int ronda) {
 	return string(temp);
 }
 string Pasaporte::case3(string temp, int ronda) {
-	if (z==0){
+	if (z == 0) {
 		srand(time(NULL));
 		int dato2 = 0 + rand() % (3);
 		k = dato2;
@@ -53,15 +53,17 @@ string Pasaporte::case3(string temp, int ronda) {
 		int dato25 = 1 + rand() % (9);
 		q = dato25;
 	}
-	if (z != k) {temp = datosp[z][ronda];
-	}if(z==k) {	temp = datosp[z][q];
+	if (z != k) {
+		temp = datosp[z][ronda];
+	}if (z == k) {
+		temp = datosp[z][q];
 	}
 	z++;
 	if (z == 7) { z = 0; }
 	return string(temp);
 }
 string Pasaporte::case4(string temp, int ronda) {
-	if (z==0){
+	if (z == 0) {
 		srand(time(NULL));
 		int dato3 = 0 + rand() % (6);
 		k = dato3;
@@ -69,15 +71,18 @@ string Pasaporte::case4(string temp, int ronda) {
 		int dato35 = 1 + rand() % (9);
 		q = dato35;
 	}
-	if (z != k) {	temp = datosp[z][ronda];
-	}else {	temp = datosp[z][q];
+	if (z != k) {
+		temp = datosp[z][ronda];
+	}
+	else {
+		temp = datosp[z][q];
 	}
 	z++;
 	if (z == 7) { z = 0; }
 	return string(temp);
 }
 
-class INE{
+class INE {
 public:
 	INE();
 	void lectura();
@@ -88,12 +93,12 @@ public:
 	int j;
 	int z;
 };
-INE::INE(){i = 0; j = 0; z = 0;}
+INE::INE() { i = 0; j = 0; z = 0; }
 void INE::lectura() {
 	i = 0; j = 0;
 	ifstream archivo;
 	archivo.open("Datos.txt", ios::in);
-	if (archivo.fail()) { 
+	if (archivo.fail()) {
 		std::cout << "ERROR al abrir el archivo" << endl;
 		std::system("pause");
 		exit(0);
@@ -107,7 +112,7 @@ void INE::lectura() {
 	archivo.close();
 }
 
-string INE::send(string temp,int ronda) {	
+string INE::send(string temp, int ronda) {
 	temp = datos[z][ronda];
 	z++;
 	if (z == 7) { z = 0; }

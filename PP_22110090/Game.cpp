@@ -5,78 +5,91 @@
 
 using namespace std;
 
-class Game{
+class Game {
 public:
-	Game();
-	void Menu();
-	void Start();
-	int pt;
+    Game();
+    void Menu();
+    void Start();
+    int pt;
     int ronda;
-	int opc;
+    int opc;
     int respuesta;
     string datosIne[8][10];
     string datosPass[8][10];
     string temp;
+    int l;
 };
-Game::Game(){
-    pt = 0; opc = 0; ronda = 0; respuesta = 0;
+Game::Game() {
+    pt = 0; opc = 0; ronda = 0; respuesta = 0; l = 0;
 }
 
 void Game::Start() {
     string datoint;
     ronda = 0;
     INE ine;
-    ine.lectura();   
+    ine.lectura();
     Pasaporte pas;
     pas.Get();
 
-    while (ronda<10){
-        std::cout << "Ronda: " << ronda + 1 << "\nPuntaje: "<<pt<<"\n" << endl;
+    while (ronda < 10) {
+        std::cout << "Ronda: " << ronda + 1 << "\nPuntaje: " << pt << "\n" << endl;
         std::cout << "Papeles Por favor\n" << endl;
-        std::cout << "INE"<< endl;
+        std::cout << "INE" << endl;
         for (int i = 0; i <= 6; i++) {
             datoint = ine.send(temp, ronda);
             datosIne[i][ronda] = datoint;
             std::cout << datoint << endl;
         }
-        std::cout << "\n\nPasaporte"<< endl;
+        std::cout << "\n\nPasaporte" << endl;
 
         srand(time(NULL));
         int dato = 1 + rand() % (4);
-        
-        if (dato == 1 || dato == 2 || dato == 5) {
+
+        if (dato == 1 || dato == 5) {
             for (int i = 0; i <= 6; i++) {
                 datoint = pas.case1(temp, ronda);
                 datosPass[i][ronda] = datoint;
                 std::cout << datoint << endl;
             }
-        }else if (dato == 3) {
+        }
+        else if (dato == 3 || dato == 2) {
             for (int i = 0; i <= 6; i++) {
                 datoint = pas.case3(temp, ronda);
                 datosPass[i][ronda] = datoint;
                 std::cout << datoint << endl;
             }
-        }else if (dato == 4) {
+        }
+        else if (dato == 4) {
             for (int i = 0; i <= 6; i++) {
                 datoint = pas.case4(temp, ronda);
                 datosPass[i][ronda] = datoint;
                 std::cout << datoint << endl;
             }
         }
-        
+
         std::cout << "\n1.-Sellar pasaporte\t\t\t\t\t2.-Denegar acceso" << endl;
         std::cin >> respuesta;
-        
-        if (respuesta==1 &&dato == 1 || dato == 2 || dato == 5) {
-            std::system("cls");
-            std::cout << "\n                   Respuesta correcta\n" << endl;
-            pt += 100;
+
+        if (respuesta == 1) {
+            l = 0;
+            for (int i = 0; i <= 6; i++) {
+                if (datosIne[i][ronda] != datosPass[i][ronda]) {
+                    l = 1;
+                }
+            }
+            if (l == 0) {
+                std::system("cls");
+                std::cout << "\n                   Respuesta correcta\n" << endl;
+                pt += 100;
+            }
+            if (l == 1) {
+                std::system("cls");
+                std::cout << "\n                   Respuesta incorrecta\n" << endl;
+                pt = pt - 100;
+            }
+
         }
-        else if (respuesta == 1 && dato != 1 || dato != 2 || dato != 5) {
-            std::system("cls");
-            std::cout << "\n                   Respuesta incorrecta\n" << endl;
-            pt = pt-100;
-        }
+
         if (respuesta == 2) {
             std::cout << "\nSeleccione la razon del rechazo: \n1.-Nombre no coincide               2.-Apellido no coincide" << endl;
             std::cout << "3.-Domicilio no coincide            4.-CURP no coincide" << endl;
@@ -89,20 +102,20 @@ void Game::Start() {
         ronda++;
     }
     std::system("cls");
-    std::cout << "\n\nGracias por jugar"<< endl;
-    std::cout << "\n\nPuntaje final: "<<pt << endl;
+    std::cout << "\n\nGracias por jugar" << endl;
+    std::cout << "\n\nPuntaje final: " << pt << endl;
 }
 
 void Game::Menu() {
-    
+
     std::system("cls");
     std::cout << "......Papers, Please by Zavala......" << endl;
     std::cout << "................Menu................." << endl;
     std::cout << "1.-Jugar" << endl;
     std::cout << "2.-Salir" << endl;
     std::cin >> opc;
-        do {
-            std::system("cls");
+    do {
+        std::system("cls");
 
         switch (opc) {
         case 1:std::cout << "\n\nA continuacion, para ganar puntos debera identificar las incongruencias entre la INE y el Pasaporte," << endl;
@@ -125,7 +138,7 @@ void Game::Menu() {
 }
 
 int main() {
-	Game game;
-	game.Menu();
-	return 0;
+    Game game;
+    game.Menu();
+    return 0;
 }
